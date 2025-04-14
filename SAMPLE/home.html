@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, inital-scale=1.0">
+  <title>Villa Teresita Website</title>
+  <link rel="stylesheet" href="villa_teresita.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+  
+</head>
+
+<body>
+  <header class="header" id="navigation-menu">
+    <div class="container">
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="Home.html">Home</a></li>
+          <li><a href="About.html">About</a></li>
+          <li><a href="Contact.html">Gallery</a></li>
+          <li><a href="Login.html">Login</a></li>
+        </ul>
+
+        <div class="hambuger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <script>
+    const hambuger = document.querySelector('.hambuger');
+    const navMenu = document.querySelector('.nav-menu');
+
+    hambuger.addEventListener("click", mobileMenu);
+
+    function mobileMenu() {
+      hambuger.classList.toggle("active");
+      navMenu.classList.toggle("active");
+    }
+
+    const navLink = document.querySelectorAll('.nav-link');
+    navLink.forEach((n) => n.addEventListener("click", closeMenu));
+
+    function closeMenu() {
+      hambuger.classList.remove("active");
+      navMenu.classList.remove("active");
+    }
+  </script>
+
+  <section class="home" id="home">
+    <div class="head_container">
+      <div class="box">
+        <div class="text">
+          <h1>Hello! Welcome to Villa Teresita Resort Website</h1>
+          <p>Welcome to Villa Teresita Resort, your ultimate getaway destination where relaxation meets adventure! Nestled in a serene location, our resort offers a perfect escape with comfortable accommodations, refreshing pool access for single or multiple-day stays, cozy cottages for family or group gatherings, and a delightful selection of mouthwatering dishes to satisfy every craving. Whether you're looking to unwind, celebrate, or explore, The Villa Teresita Resort is here to provide an unforgettable experience tailored to your desires. Come and create cherished memories with us!. </p>
+        </div>
+      </div>
+      <div class="image">
+        <img src="villa_large_pool.webp" class="slide">
+      </div>
+      <div class="image_item">
+        <img src="villa_large_pool.webp" alt="" class="slide active" onclick="img('villa_large_pool.webp')">
+        <img src="villa_large_pool2.jpg" alt="" class="slide" onclick="img('villa_large_pool2.jpg')">
+        <img src="villa_large_pool3.jpg" alt="" class="slide" onclick="img('villa_large_pool3.jpg')">
+        <img src="villa_large_pool4.jpg" alt="" class="slide" onclick="img('villa_large_pool4.jpg')">
+      </div>
+    </div>
+  </section>
+  <script>
+    function img(anything) {
+      document.querySelector('.slide').src = anything;
+    }
+
+    function change(change) {
+      const line = document.querySelector('.image');
+      line.style.background = change;
+    }
+  </script>
+
+<!-- -------ABOUT------------ -->
+<div id="about">
+  <section class="home2" id="home2">
+  <div class="head_container">
+      <div class="box">
+      <div class="text">
+          <div class="heading">
+          <h1>Welcome to Villa Teresita Resort Website</h1>
+          <p>Experience the serene ambiance of our resort, where lush greenery meets refreshing pools and scenic views. Whether you’re here for a family getaway, a romantic escape, or a day of fun with friends, we’ve got something special for everyone.
+              Take a dip in our crystal-clear pools, enjoy delicious local cuisine, or simply unwind and soak up the tranquil surroundings. At Villa Teresita Santos Resort, we’re dedicated to making your stay comfortable, enjoyable, and memorable.
+              We can’t wait to welcome you!
+              Plan your visit today and let us be part of your story. </p>
+          </div>
+      </div>
+      </div>
+      <div class="frame">
+      <video controls>
+          <source src="Villa Teresita Promotional Video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+      <h2>Villa Teresita Resort</h2>
+  </div>
+  </div>
+  </section>
+</div>
+
+<!-- Accomodation Services Section -->
+<div id="accomodations">
+  <section id="services" class="services">
+  <div class="head_container">
+      <div class="box">
+      <div class="text">
+          <div class="heading">
+          <h1>Our Accomodation and Services</h1>
+          </div>
+      </div>
+      </div>
+      
+  <div class="photo-container">
+      <div class="frame2">
+          <img src="cottages.jpg" alt="Cottages">
+          <h2>One Day Stay</h2>
+          <h3>COTTAGES</h3>
+          <p>
+          "If you're planning for a Single-day Vacation with your family and loved ones. The Villa Teresita Resort offers a wide variety of cottages that can be used for a day. So if you're planning to celebrate a momentous occasion or enjoy the summer heat with your family and loved ones. Visit the Villa Teresita Resort Today, and make every moment worthwhile!"
+          </p>
+      </div>
+  
+      <div class="frame2">
+          <img src="suites and rooms.jpg" alt="Suites and Rooms">
+          <h2>Multiple Day Stay</h2>
+          <h3>ROOMS AND SUITES</h3>
+          <p>
+          "If you're planning to have a multiple day and night stay with your family, barkada's, and loved ones. The Villa Teresita Resort also offers a wide variety of accomodation. Ranging from Single-Rooms, Family Rooms, Barkada Rooms, Suites, and Superior Rooms that can help you enjoy your stay at the Villa Teresita Resort. Visit the Villa Teresita Resort Today, and make every moment worthwhile!"
+          </p>
+      </div>
+
+      <div class="frame2">
+          <img src="buffet.photo.jpg" alt="Catering Servies, Buffet, and Meals">
+          <h2>Food Services</h2>
+          <h3>Catering Services, Buffet, and Meals</h3>
+          <p>
+          "Indulge in a feast of flavors at Villa Teresita Resort, where we proudly serve an array of authentic Filipino and Bisaya cuisines. Our buffet showcases the rich culinary heritage of the Philippines, featuring well-loved dishes like lechon belly, adobo, sinigang, and kare-kare, paired perfectly with a variety of freshly prepared side dishes and desserts. Whether you're enjoying a casual lunch, a festive family gathering, or a romantic dinner by the poolside, our meal services promise an unforgettable dining experience. At Villa Teresita Resort, every meal is more than just food—it's a celebration of Filipino culture, hospitality, and taste."
+          </p>
+      </div>
+  </div>            
+  </section>
+</div>
+
+
+<!-- Testimony Section -->
+<section id="testimony" class="testimony">
+  <div class="testimonials">
+    <div class="inner">
+      <h1>Testimonials</h1>
+      <div class="border"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="testimonial">
+            <img src="testimony_madrid.jpg" alt="">
+            <div class="name">Henry James Madrid</div>
+            <div class="stars">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+
+            <p>
+              The experience we had at the Villa Teresita Resort was really amazing. We visited last December 08, 2024 and the pools there were so amazing. They also have separate pools suited for children, teenagers, and adults. The Foods there was also great and so is the staffs that accomodated us three-day stay. What are you guys waiting for, visit Villa Teresita Resort now!
+            </p>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="testimonial">
+            <img src="testimony_cabrera.jpg" alt="">
+            <div class="name">John Kent D. Cabrera</div>
+            <div class="stars">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+
+            <p>
+              The Villa Teresita Resort is a wonderful resort. We visited last December 12, 2024 and we really enjoyed our day stay there. The Pools were really great and so is the people whom accomodated us during our stay there. Hope that we can visit sometime soon maybe during the summer season.
+            </p>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="testimonial">
+            <img src="testimony_lemuel.jpg" alt="">
+            <div class="name">Lemuel Augusto</div>
+            <div class="stars">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+
+            <p>
+              We visited last December 1, 2024 and what you see on social media and on their official websites is really what you'll get once you visit the Villa Teresita Resort. There were a lot of instagrammable spots on the resort and really hope that we can visit again.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html> 
