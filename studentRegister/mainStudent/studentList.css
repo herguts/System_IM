@@ -1,0 +1,479 @@
+/* ================================
+   GLOBAL STYLES (applies to all pages)
+=================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    background-color: #b10000!important;
+    color: white!important;
+  }
+  
+  header {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 10px 20px;
+  }
+  
+  /* Website header background image */
+  .head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .head img {
+    width: 100%;
+    height: 165%;
+    object-fit: cover;
+    opacity: 1; /* Subtle background look */
+  }
+  
+  /* LOGOS + TITLE ON TOP */
+  .header-logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 150px;
+    flex-wrap: wrap;
+  }
+  
+  .logo-group {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .logo {
+    width: 115px;
+    height: 115px;
+    background: #eee;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .school-title {
+    text-align: center;
+    flex: 1;
+  }
+  
+  .school-title h1 {
+    font-size: 35px;
+    font-weight: bold;
+    line-height: 1.3;
+  }
+  
+  .school-title span {
+    font-size: 30px;
+  }
+
+/* ================================
+   teacherList.html and studentList.html
+   - Tables and Search
+=================================== */
+#teacher-content,
+#student-content {
+    display: flex;
+    height: calc(500vh - 100px);
+}
+
+.Info {
+    display: flex;
+    position: absolute;
+    top: 250px;
+    left: 550px;
+}
+
+.Info h1 {
+    font-weight: bolder;
+    font-size: 45px;
+}
+
+.table-container {
+    top: 0;
+    text-align: center;
+}
+
+.card-body {
+    display: flex;
+    position: absolute;
+    top: 320px;
+    left: 350px;
+}
+
+.cards-body {
+    display: flex;
+    position: absolute;
+    top: 300px;
+    left: 260px;
+}
+
+table {
+    width: 200%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #3cb371;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Inline Edit & Action Buttons */
+.edit-mode input {
+    border: 1px solid #ccc;
+    padding: 2px;
+    width: 20px;
+}
+
+.edit-mode .action-buttons {
+    display: none;
+}
+
+.action-buttons {
+    white-space: nowrap;
+}
+
+.action-buttons button,
+.action-buttons a {
+    margin-right: 5px;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #3cb37285;
+    box-shadow: 2px 2px 2px #0000007d;
+    color: #ff4500;
+}
+
+.action-buttons button:hover,
+.action-buttons a:hover {
+    background-color: #3cb372;
+}
+
+.editable {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ================================
+   Search Bar Component (Shared)
+=================================== */
+.search-bar {
+    position: absolute;
+    gap: 20px;
+    top: 200px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input[type="text"] {
+    padding-left: 30px;
+    border: solid 2px rgba(128, 128, 128, 0.562);
+    width: 250px;
+}
+
+.search-bar input[type="text"]:focus {
+    outline: none;
+}
+
+.search-bar .fa-search {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    color: #aaa;
+}
+
+/* Reusable Button Style */
+.db-btn {
+    padding: 5px 20px;
+    border: none;
+    background-color: #3cb37285;
+    text-shadow: 2px 1px 2px #0000007d;
+    box-shadow: 2px 2px 2px #0000007d;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.db-btn i {
+    margin-right: 5px;
+}
+
+.db-btn:hover {
+    background-color: #0251188d;
+}
+
+/* ================================
+   studentsList.html
+   - Main Layout and Dashboard Sidebar
+=================================== */
+#main-content {
+    display: flex;
+    height: calc(100vh - 110px);
+}
+
+.dashboard {
+    width: 200px;
+    background-color: rgba(255, 99, 99, 0.3);
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: -5px;
+    color: white;
+    min-height: auto;
+    z-index: 1;
+}
+
+.dashboard h5 {
+    margin: 20px 0 0 0; 
+    color: #ffffff;
+}
+
+.dashboard a {
+    text-decoration: none;
+}
+
+#profile img {
+    display: block;
+    border-radius: 50px;
+    margin-top: 30px;
+}
+
+.adminbtn {
+    border: none;
+    background: none;
+    font-weight: bold;
+    color: white;
+    margin-top: 15px;
+    cursor: pointer;
+    position: relative;
+}
+
+.adminbtn::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 235px;
+    height: 125%;
+    margin-left: -100px;
+    transition: background-color 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.adminbtn:hover::after {
+    background-color: rgba(255, 255, 255, 0.271);
+}
+
+.button-list {
+    list-style: none;
+    padding: 0;
+    margin: 35px 0 0 0;
+}
+
+.button-list li {
+    margin-bottom: 10px;
+}
+
+.button-list li .btn span {
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+.button-list li .btn {
+    position: relative;
+    outline: none;
+    border: none;
+}
+
+.button-list li .btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    margin-left: -20px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button-list li .btn:hover::after {
+    background-color: rgba(255, 255, 255, 0.271);
+}
+
+/* Dashboard Cards */
+#dashboard-cards {
+    display: flex;
+    position: absolute;
+    top: 180px;
+    left: 275px;
+    flex-wrap: wrap;
+}
+
+.card {
+    border-radius: 8px;
+    padding: 20px;
+    width: 30vw;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+.card:nth-child(2),
+.card:nth-child(4),
+.card:nth-child(6),
+.card:nth-child(8) {
+    margin-left: 62px;
+}
+
+.card h5 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+.card i {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.card .content-icon {
+    text-align: right;
+    padding-right: 10px;
+}
+
+/* ================================
+   Admin Panel Sidebar (adminhome.html)
+=================================== */
+.admin-panel {
+    position: absolute;
+    top: 15%;
+    left: 15.9%;
+    width: 0;
+    height: 85%;
+    background-color: rgb(225, 220, 220);
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+}
+
+.admin-panel.show {
+    width: 240px;
+}
+
+.admin-sidebar {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    color: black;
+}
+
+.admin-sidebar-header {
+    padding-right: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.admin-sidebar-header h4 {
+    margin: 5px;
+    font-weight: bold;
+}
+
+hr {
+    height: 2px;
+    background-color: #000;
+    border: none;
+    margin: 20px 0;
+}
+
+.admin-sidebar-header i {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    color: #707072;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.admin-sidebar-header i:hover {
+    color: #0000003e;
+}
+
+.admin-sidebar-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-sidebar-content ul li a {
+    display: block;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: none;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-sidebar-content ul li a:hover {
+    background-color: rgba(129, 209, 132, 0.392);
+}
+
+/* Dropdown Settings */
+.admin-sidebar-content .dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0;
+}
+
+.admin-sidebar-content .dropdown .dropdown-menu.show {
+    display: block;
+    padding: 10px;
+}
+
+.admin-sidebar-content .dropdown .dropdown-menu a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.admin-sidebar-content .dropdown.show ~ li:last-child {
+    margin-top: 50px;
+    padding: 20%;
+    font-style: italic;
+}
+
+.admin-sidebar-content .dropdown .dropdown-menu a:hover {
+    background-color: rgba(27, 204, 145, 0.33);
+}
