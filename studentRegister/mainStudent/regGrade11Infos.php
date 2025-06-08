@@ -9,7 +9,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-// Assign section and teacher
+// Assign or update section and teacher
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_section'], $_POST['stud_id'])) {
     $section_id = (int) $_POST['assign_section'];
     $stud_id = (int) $_POST['stud_id'];
@@ -26,9 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_section'], $_P
             SET section_id = $1, teach_no = $2 
             WHERE stud_id = $3
         ", [$section_id, $teach_no, $stud_id]);
-    } else {
-        // No teacher assigned to this section
-        // Handle this case if needed, e.g., show a message or fallback behavior
+
     }
 
     header("Location: regGrade11Infos.php?id=" . $stud_id);
@@ -54,18 +52,18 @@ $query = "
         s.stud_gender,
         s.stud_lrn,
         s.stud_phonenum,
+        s.stud_status,
+        s.section_id,
         gl.gradelvl_name AS grade,
         CASE 
             WHEN gl.gradelvl_name IN ('Grade 11', 'Grade 12') THEN 'Senior High School'
             WHEN gl.gradelvl_name IS NOT NULL THEN 'Junior High School'
             ELSE 'N/A'
         END AS level,
-        sec.section_name AS section,
-        str.strand_name AS strand
+        sec.section_name AS section
     FROM STUDENT s
     LEFT JOIN GRADE_LEVEL gl ON s.gradelvl_id = gl.gradelvl_id
     LEFT JOIN SECTION sec ON s.section_id = sec.section_id
-    LEFT JOIN STRAND str ON sec.strand_id = str.strand_id
     WHERE s.stud_id = $1
 ";
 
@@ -76,7 +74,7 @@ $result = pg_query_params($conn, $query, [$student_id]);
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Grade 7 - Student Info</title>
+    <title>Grade 11 - Student Info</title>
     <link rel="stylesheet" href="studentList.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -139,7 +137,7 @@ $result = pg_query_params($conn, $query, [$student_id]);
                 <th>Age</th>
                 <th>Level</th>
                 <th>Grade</th>
-                <th>Strand</th>
+                <th>Status</th>
                 <th>Section</th>
                 <th>Actions</th>
             </tr>
@@ -158,8 +156,9 @@ $result = pg_query_params($conn, $query, [$student_id]);
             $dob = $row['stud_dob'];
             $grade = htmlspecialchars($row['grade']);
             $level = htmlspecialchars($row['level']);
-            $strand = isset($row['strand']) ? htmlspecialchars($row['strand']) : '';
             $section = $row['section'];
+            $section_id_current = $row['section_id'];
+            $status = htmlspecialchars($row['stud_status']);
 
             $age = '';
             if ($dob) {
@@ -167,8 +166,6 @@ $result = pg_query_params($conn, $query, [$student_id]);
                 $now = new DateTime();
                 $age = $now->diff($dobDate)->y;
             }
-
-            $displayStrand = ($level === 'Senior High School') ? $strand : '';
 
             echo "<tr>
                 <td>$lname, $fname " . strtoupper(substr($mname, 0, 1)) . ".</td>
@@ -178,34 +175,32 @@ $result = pg_query_params($conn, $query, [$student_id]);
                 <td>$age</td>
                 <td>$level</td>
                 <td>$grade</td>
-                <td>$displayStrand</td>
+                <td>$status</td>
                 <td>";
 
-            if ($section) {
-                echo htmlspecialchars($section);
-            } else {
-                $sectionResult = pg_query($conn, "SELECT section_id, section_name FROM SECTION WHERE gradelvl_id IN (11)");
-                if ($sectionResult && pg_num_rows($sectionResult) > 0) {
-                    echo '<form method="POST" class="d-flex">';
-                    echo '<input type="hidden" name="stud_id" value="' . $stud_id . '">';
-                    echo '<select name="assign_section" class="form-select form-select-sm me-2" required>';
-                    echo '<option value="">Select</option>';
-                    while ($sec = pg_fetch_assoc($sectionResult)) {
-                        $sid = $sec['section_id'];
-                        $sname = htmlspecialchars($sec['section_name']);
-                        echo "<option value='$sid'>$sname</option>";
-                    }
-                    echo '</select>';
-                    echo '<button type="submit" class="btn btn-success btn-sm">Add Section</button>';
-                    echo '</form>';
-                } else {
-                    echo 'No sections available.';
+            $sectionResult = pg_query($conn, "SELECT section_id, section_name FROM SECTION WHERE gradelvl_id IN (11)");
+            if ($sectionResult && pg_num_rows($sectionResult) > 0) {
+                echo '<form method="POST" class="d-flex">';
+                echo '<input type="hidden" name="stud_id" value="' . $stud_id . '">';
+                echo '<select name="assign_section" class="form-select form-select-sm me-2" required>';
+                echo '<option value="">Select</option>';
+                while ($sec = pg_fetch_assoc($sectionResult)) {
+                    $sid = $sec['section_id'];
+                    $sname = htmlspecialchars($sec['section_name']);
+                    $selected = ($section_id_current == $sid) ? 'selected' : '';
+                    echo "<option value='$sid' $selected>$sname</option>";
                 }
+                echo '</select>';
+                echo '<button type="submit" class="btn btn-success btn-sm">';
+                echo $section ? 'Update Section' : 'Add Section';
+                echo '</button>';
+                echo '</form>';
+            } else {
+                echo 'No sections available.';
             }
 
             echo "</td>
                 <td>
-                    <a href='editEnrollment.php?id=$stud_id' class='btn btn-warning'><i class='fas fa-pen'></i></a>
                     <a href='regGrade11Infos.php?delete=$stud_id' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this student?\")'><i class='fas fa-trash-alt'></i></a>
                 </td>
             </tr>";
@@ -215,6 +210,52 @@ $result = pg_query_params($conn, $query, [$student_id]);
         ?>
         </tbody>
     </table>
+</div>
+<div class="container mt-3 mb-5">
+    <h2 class="mb-3">Uploaded Requirements</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php
+        $requirements = pg_query_params($conn, "SELECT * FROM requirements WHERE stud_id = $1", [$student_id]);
+        if ($requirements && pg_num_rows($requirements) > 0) {
+            $row = pg_fetch_assoc($requirements);
+            $fileLabels = [
+                'enrollformupload' => 'Enrollment Form',
+                'goodmoralupload' => 'Good Moral',
+                'reportcardupload' => 'Report Card',
+                'psaupload' => 'PSA',
+                'completionupload' => 'Completion Certificate',
+                'alsresultsupload' => 'ALS Results'
+            ];
+
+            foreach ($fileLabels as $field => $label) {
+                if (isset($row[$field]) && !empty($row[$field])) {
+                    $filePath = htmlspecialchars($row[$field]);
+                    $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                    $is_image = in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                    $fileUrl = "../../" . $filePath;
+
+                    echo '<div class="col">';
+                    echo '  <div class="card h-100 shadow-sm">';
+                    if ($is_image) {
+                        echo "      <img src='$fileUrl' class='card-img-top' alt='$label'>";
+                    } else {
+                        echo "      <div class='card-body text-center'>";
+                        echo "          <i class='fas fa-file-alt fa-3x text-secondary mb-2'></i>";
+                        echo "          <p class='card-text'>$label</p>";
+                        echo "      </div>";
+                    }
+                    echo '      <div class="card-footer text-center">';
+                    echo "          <a href='$fileUrl' class='btn btn-primary btn-sm' target='_blank'><i class='fas fa-download'></i> View</a>";
+                    echo '      </div>';
+                    echo '  </div>';
+                    echo '</div>';
+                }
+            }
+        } else {
+            echo "<p class='text-muted'>No uploaded requirements found for this student.</p>";
+        }
+        ?>
+    </div>
 </div>
 </body>
 </html>

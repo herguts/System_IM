@@ -35,6 +35,17 @@ $queryWeek = "
 $resultWeek = pg_query_params($conn, $queryWeek, [$gradeLevelId]);
 $weeklyTotal = pg_fetch_result($resultWeek, 0, 0);
 
+// Query for students enrolled in the current month
+$queryMonth = "
+    SELECT COUNT(*) AS monthly_total 
+    FROM STUDENT 
+    WHERE gradelvl_id = $1 
+      AND date_trunc('month', enrollment_date) = date_trunc('month', CURRENT_DATE)
+";
+$resultMonth = pg_query_params($conn, $queryMonth, [$gradeLevelId]);
+$monthlyTotal = pg_fetch_result($resultMonth, 0, 0);
+
+
 // Weekly breakdown by day
 $dayCounts = [];
 $labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -71,9 +82,29 @@ for ($i = 0; $i < 7; $i++) {
 <head>
   <meta charset="UTF-8">
   <title>Grade 9 Enrollment Report</title>
+  <link href="report.css" rel="stylesheet"/> 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
+  
+<header>
+    <div class="head">
+        <img src="../../images/header.png" alt="Website Header">
+    </div>
+    <div class="header-logos">
+        <div class="logo-group left">
+            <div class="logo"><img src="../../images/logo1.png" alt="Logo 1" /></div>
+            <div class="logo"><img src="../../images/logo2.png" alt="Logo 2" /></div>
+        </div>
+        <div class="school-title">
+            <h1>MAGDUGO<br><span>NATIONAL HIGHSCHOOL</span></h1>
+        </div>
+        <div class="logo-group right">
+            <div class="logo"><img src="../../images/logo3.png" alt="Logo 3" /></div>
+            <div class="logo"><img src="../../images/logo4.png" alt="Logo 4" /></div>
+        </div>
+    </div>
+</header>
 <div class="container mt-5">
   <h2>Grade 9 Enrollment Report</h2>
 
@@ -101,6 +132,10 @@ for ($i = 0; $i < 7; $i++) {
       <tr class="table-info">
         <td><strong>Enrolled (Past 7 Days)</strong></td>
         <td><strong><?= $weeklyTotal ?></strong></td>
+      </tr>
+      <tr class="table-success">
+        <td><strong>Enrolled (This Month)</strong></td>
+        <td><strong><?= $monthlyTotal ?></strong></td>
       </tr>
     </tbody>
   </table>

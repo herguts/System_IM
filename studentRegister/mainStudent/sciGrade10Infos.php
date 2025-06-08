@@ -59,6 +59,7 @@ $query = "
         s.stud_gender,
         s.stud_lrn,
         s.stud_phonenum,
+        s.stud_status,
         s.section_id,
         gl.gradelvl_name AS grade,
         CASE 
@@ -143,6 +144,7 @@ $result = pg_query_params($conn, $query, [$student_id]);
                 <th>Age</th>
                 <th>Level</th>
                 <th>Grade</th>
+                <th>Status</th>
                 <th>Section</th>
                 <th>Actions</th>
             </tr>
@@ -163,6 +165,7 @@ $result = pg_query_params($conn, $query, [$student_id]);
             $level = htmlspecialchars($row['level']);
             $section = $row['section'];
             $section_id_current = $row['section_id'];
+            $status = htmlspecialchars($row['stud_status']);
 
             $age = '';
             if ($dob) {
@@ -179,6 +182,7 @@ $result = pg_query_params($conn, $query, [$student_id]);
                 <td>$age</td>
                 <td>$level</td>
                 <td>$grade</td>
+                <td>$status</td>
                 <td>";
 
             $sectionResult = pg_query($conn, "SELECT section_id, section_name FROM SECTION WHERE gradelvl_id IN (10, 16)");
@@ -213,6 +217,52 @@ $result = pg_query_params($conn, $query, [$student_id]);
         ?>
         </tbody>
     </table>
+</div>
+<div class="container mt-3 mb-5">
+    <h2 class="mb-3">Uploaded Requirements</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php
+        $requirements = pg_query_params($conn, "SELECT * FROM requirements WHERE stud_id = $1", [$student_id]);
+        if ($requirements && pg_num_rows($requirements) > 0) {
+            $row = pg_fetch_assoc($requirements);
+            $fileLabels = [
+                'enrollformupload' => 'Enrollment Form',
+                'goodmoralupload' => 'Good Moral',
+                'reportcardupload' => 'Report Card',
+                'psaupload' => 'PSA',
+                'completionupload' => 'Completion Certificate',
+                'alsresultsupload' => 'ALS Results'
+            ];
+
+            foreach ($fileLabels as $field => $label) {
+                if (isset($row[$field]) && !empty($row[$field])) {
+                    $filePath = htmlspecialchars($row[$field]);
+                    $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                    $is_image = in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                    $fileUrl = "../../" . $filePath;
+
+                    echo '<div class="col">';
+                    echo '  <div class="card h-100 shadow-sm">';
+                    if ($is_image) {
+                        echo "      <img src='$fileUrl' class='card-img-top' alt='$label'>";
+                    } else {
+                        echo "      <div class='card-body text-center'>";
+                        echo "          <i class='fas fa-file-alt fa-3x text-secondary mb-2'></i>";
+                        echo "          <p class='card-text'>$label</p>";
+                        echo "      </div>";
+                    }
+                    echo '      <div class="card-footer text-center">';
+                    echo "          <a href='$fileUrl' class='btn btn-primary btn-sm' target='_blank'><i class='fas fa-download'></i> View</a>";
+                    echo '      </div>';
+                    echo '  </div>';
+                    echo '</div>';
+                }
+            }
+        } else {
+            echo "<p class='text-muted'>No uploaded requirements found for this student.</p>";
+        }
+        ?>
+    </div>
 </div>
 </body>
 </html>

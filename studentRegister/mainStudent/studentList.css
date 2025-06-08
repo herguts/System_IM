@@ -109,12 +109,6 @@
     text-align: center;
 }
 
-.card-body {
-    display: flex;
-    position: absolute;
-    top: 320px;
-    left: 350px;
-}
 
 .cards-body {
     display: flex;

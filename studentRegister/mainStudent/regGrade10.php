@@ -51,6 +51,13 @@ $result = pg_query_params($conn, $query, $params);
     <link rel="stylesheet" href="studentList.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || (performance.navigation.type === 2)) {
+                location.reload();
+            }
+        });
+    </script>
 </head>
 <body>
 <header>
